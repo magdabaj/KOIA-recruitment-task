@@ -7,6 +7,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { generateQuartersInRange } from '../../utils/generateQuartersInRange';
+import styled from '@emotion/styled';
 
 export const houseTypes =  [
     {
@@ -29,6 +30,16 @@ type FormData = {
     houseTypes: Array<houseTypeValue>
   }
 
+const SubmitButton = styled(Button)`
+    margin-top: 12px;
+  `
+
+const StyledForm = styled(FormGroup)`
+    display: flex;
+    flex-direction: column;
+    gap: 4;
+`
+
 const ChartForm = () => {
     const navigate = useNavigate();
     const { register, handleSubmit,  formState: { errors }, } = useForm<FormData>()
@@ -37,14 +48,15 @@ const ChartForm = () => {
       navigate(`/chart/quarterStart/${data.quarterStart}/quarterEnd/${data.quarterEnd}/houseType/${data.houseTypes}`)
     }
 
-    const quarterValues =useMemo(() =>generateQuartersInRange("2009K1","2023K4"),[] ) 
+    const quarterValues =useMemo(() =>generateQuartersInRange("2009K1","2023K4"),[]) 
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup style={{display: 'flex', flexDirection:'column', gap:4}}>
+        <StyledForm>
       
         {/* todo validation for quarter start and quarter end  */}
-     <InputLabel id="quarter-start">Quarter start</InputLabel>
+        {/* todo add validation messages */}
+        <InputLabel id="quarter-start">Quarter start</InputLabel>
           <Select 
             defaultValue="2009K1"
             labelId='quarter-start'
@@ -57,36 +69,41 @@ const ChartForm = () => {
   
   
   
-          <InputLabel id="quarter-end">Quarter end</InputLabel>
-            <Select 
-             defaultValue="2023K4"
+        <InputLabel id="quarter-end">Quarter end</InputLabel>
+        <Select 
+            defaultValue="2023K4"
             labelId='quarter-end'
             error={errors.quarterEnd?true:false}
             {...register("quarterEnd",{required:true})} 
-          >
+        >
             {quarterValues.map((quarter) =>
             <MenuItem key={quarter} value={quarter}>{quarter}</MenuItem>
             )}
-            </Select>
+        </Select>
   
     
      
-          <InputLabel id="house-types">House types</InputLabel>
-                <Select
-                defaultValue={houseTypes[0].value}
-                  labelId="house-types"
-                  id="house-types"
-                  error={errors.houseTypes?true:false}
-                  {...register("houseTypes",{required:true})}
-                >
-                  {houseTypes.map((type) => 
-                    <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
-                  )}
-                </Select>        
+        <InputLabel id="house-types">House types</InputLabel>
+        <Select
+            defaultValue={houseTypes[0].value}
+            labelId="house-types"
+            id="house-types"
+            error={errors.houseTypes?true:false}
+            {...register("houseTypes",{required:true})}
+        >
+            {houseTypes.map((type) => 
+            <MenuItem key={type.value} value={type.value}>{type.label}</MenuItem>
+            )}
+        </Select>        
       
-        <Button variant='contained' type='submit' style={{marginTop:12}}>Show chart</Button>
+        <SubmitButton 
+            variant='contained' 
+            type='submit'
+        >
+            Show chart
+        </SubmitButton>
     
-      </FormGroup>
+      </StyledForm>
       </form>
     )
 }

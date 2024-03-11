@@ -4,7 +4,7 @@ const url ="https://data.ssb.no/api/v0/no/table/07241"
 export type houseTypeValue  =  '00' |  '02'  | '03'   
 
 export const fetchHouseData = async (quarters: Array<string>, houseType: houseTypeValue) =>  {
-    try {
+    
         const response = await fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -39,11 +39,13 @@ export const fetchHouseData = async (quarters: Array<string>, houseType: houseTy
     
   })
 
+  if(response.status!== 200) {
+    console.log("An error occured", response.status)
+    return
+  }
 
   const data = await response.json()
   return data.value
-} catch (error) {
-   console.log("Ann error occured", error)
-  }
+ 
 
 }

@@ -45,9 +45,9 @@ const SaveSearchDataModal = ({open, handleClose}:SaveSearchDataModalProps) =>{
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Do you want to save your search history?
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-             <Button variant="outlined" onClick={handleSaveSearchParams}>Yes </Button>
-             <Button variant="outlined" onClick={handleClose}>No </Button>
+            <Typography id="modal-modal-description" sx={{ mt: 2 , display: "flex", gap: 2}}>
+             <Button variant="outlined" onClick={handleSaveSearchParams}>Yes</Button>
+             <Button variant="outlined" onClick={handleClose}>No</Button>
             </Typography>
           </Box>
         </Modal>
