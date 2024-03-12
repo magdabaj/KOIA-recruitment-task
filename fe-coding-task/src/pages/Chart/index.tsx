@@ -9,11 +9,12 @@ import {
   } from 'chart.js';
 import { Bar } from "react-chartjs-2";
 import { useNavigate, useParams } from "react-router-dom"
-import { fetchHouseData, type houseTypeValue } from "./fetchHouseData";
+import { fetchHouseData } from "./fetchHouseData";
 import { generateQuartersInRange } from "../../utils/generateQuartersInRange";
 import { SaveSearchDataModal } from "./SaveSearchDataModal";
 import Button from "@mui/material/Button";
 import styled from '@emotion/styled';
+import {type Params } from "./types";
 
 ChartJS.register(
     CategoryScale,
@@ -34,11 +35,6 @@ ChartJS.register(
     },
   };
 
-type Params = {
-    quarterStart:string,
-    quarterEnd:'string',
-    houseType:houseTypeValue 
-}
 
 const Container = styled.div`
     width: 50vw;
@@ -50,11 +46,15 @@ const ChartWrapper = styled.div`
 `
 
 const Chart = () => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState<Array<number>>([])
     const [openSaveSearchModal, setOpenSaveSearchModal] = useState(true)
     const navigate = useNavigate();
     //todo move houseType to enum
-    const {quarterStart = '2009K1', quarterEnd='2024K1',houseType ='00'} = useParams<Params>()
+    const {
+        quarterStart = '2009K1', 
+        quarterEnd='2023K4',
+        houseType ='00'
+    } = useParams<Params>()
 
     const handleModalClose = () => {
         setOpenSaveSearchModal(false)
@@ -65,10 +65,9 @@ const Chart = () => {
     [quarterStart,quarterEnd])
 
     useEffect( () => {
-        // could use some library for fetching like react query
         const getData = async () => {
             const data = await fetchHouseData(quarters, houseType)
-            setData(data)
+            setData(data ?? [])
         }
         getData()
     },[quarters, houseType])
@@ -83,6 +82,8 @@ const Chart = () => {
           }
         ]
       }),[data]) 
+
+//todo return loader if no data
 
    return (
     <>

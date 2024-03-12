@@ -3,11 +3,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
-
-type SaveSearchDataModalProps = {
-    open:boolean
-    handleClose: () =>void
-}
+import {type Params } from "./types";
+import styled from "@emotion/styled";
 
  const style = {
     position: 'absolute' as 'absolute',
@@ -20,6 +17,17 @@ type SaveSearchDataModalProps = {
     boxShadow: 24,
     p: 4,
   }; 
+
+  type SaveSearchDataModalProps = {
+    open:boolean
+    handleClose: () =>void
+}
+
+const ButtonsContainer = styled(Typography)`
+    margin-top: 2em;
+    display: flex;
+    gap: 2em
+`
 
 const SaveSearchDataModal = ({open, handleClose}:SaveSearchDataModalProps) =>{
     const {
@@ -45,10 +53,10 @@ const SaveSearchDataModal = ({open, handleClose}:SaveSearchDataModalProps) =>{
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Do you want to save your search history?
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 , display: "flex", gap: 2}}>
+            <ButtonsContainer id="modal-modal-description" >
              <Button variant="outlined" onClick={handleSaveSearchParams}>Yes</Button>
              <Button variant="outlined" onClick={handleClose}>No</Button>
-            </Typography>
+            </ButtonsContainer>
           </Box>
         </Modal>
     );

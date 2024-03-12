@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { generateQuartersInRange } from '../../utils/generateQuartersInRange';
 import styled from '@emotion/styled';
+import { houseTypeValue } from '../Chart/fetchHouseData';
 
 export const houseTypes =  [
     {
@@ -27,17 +28,17 @@ export const houseTypes =  [
 type FormData = {
     quarterStart:string
     quarterEnd:string
-    houseTypes: Array<houseTypeValue>
+    houseTypes: houseTypeValue
   }
 
 const SubmitButton = styled(Button)`
-    margin-top: 12px;
+    margin-top: 2em;
   `
 
 const StyledForm = styled(FormGroup)`
     display: flex;
     flex-direction: column;
-    gap: 4;
+    gap: 1em;
 `
 
 const ChartForm = () => {
@@ -49,6 +50,7 @@ const ChartForm = () => {
     }
 
     const quarterValues =useMemo(() =>generateQuartersInRange("2009K1","2023K4"),[]) 
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -73,7 +75,6 @@ const ChartForm = () => {
         <Select 
             defaultValue="2023K4"
             labelId='quarter-end'
-            error={errors.quarterEnd?true:false}
             {...register("quarterEnd",{required:true})} 
         >
             {quarterValues.map((quarter) =>
@@ -82,13 +83,12 @@ const ChartForm = () => {
         </Select>
   
     
-     
+     {/* todo multiple input */}
         <InputLabel id="house-types">House types</InputLabel>
         <Select
             defaultValue={houseTypes[0].value}
             labelId="house-types"
             id="house-types"
-            error={errors.houseTypes?true:false}
             {...register("houseTypes",{required:true})}
         >
             {houseTypes.map((type) => 
