@@ -18,7 +18,7 @@ import styled from "@emotion/styled";
     p: 4,
   }; 
 
-  type SaveSearchDataModalProps = {
+type SaveSearchDataModalProps = {
     open:boolean
     handleClose: () =>void
 }

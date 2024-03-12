@@ -43,7 +43,7 @@ const StyledForm = styled(FormGroup)`
 
 const ChartForm = () => {
     const navigate = useNavigate();
-    const { register, handleSubmit,  formState: { errors }, } = useForm<FormData>()
+    const { register, handleSubmit } = useForm<FormData>()
     
     const onSubmit: SubmitHandler<FormData> =async (data) => {
       navigate(`/chart/quarterStart/${data.quarterStart}/quarterEnd/${data.quarterEnd}/houseType/${data.houseTypes}`)
